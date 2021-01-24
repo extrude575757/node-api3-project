@@ -16,10 +16,10 @@ router.get('/',   (req, res,next) => {
     })
 });
 
-router.get('/:id', validatePostId,(req, res,next) => {
+router.get('/:id', (req, res,next) => {
   // do your magic!
   // this needs a middleware to verify post id
-  Posts.getById(req.params.id)
+  Posts.getById(req.params.id,validatePostId,(req,res,next))
     .then(p =>{
       console.log('gettingid',p,req.params.id)
       try{
@@ -30,7 +30,7 @@ router.get('/:id', validatePostId,(req, res,next) => {
             res.status(404).json({message:'post not found 404 as undefined'})
           }
       }catch(e){
-        res.status(500).json({message: '500 error /:id posts-router.js',errormsg:e })
+        res.status(500).json({message: '500 error /:id posts-router.js possible Disconection',errormsg:e })
       }
       
     })
