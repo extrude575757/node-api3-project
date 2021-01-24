@@ -14,8 +14,7 @@ function get() {
 
 function getById(id) {
   return db('posts')
-    .where({ id })
-    .first();
+    .where({id} ) .first();
 }
 
 function insert(post) {

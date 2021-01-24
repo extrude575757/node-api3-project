@@ -19,9 +19,15 @@ router.get('/',   (req, res,next) => {
 router.get('/:id',(req, res,next) => {
   // do your magic!
   // this needs a middleware to verify post id
-  Posts.getById('/:id',validatePostId,(req,res,next) =>{
-    res.status(200).json(req.posts)
-  })
+  Posts.getById(req.params.id,validatePostId,(req,res,next))
+    .then(p =>{
+      console.log('gettingid',p,req.params.id)
+      
+      res.status(200).json(p)
+    })
+    .catch( er =>{
+      next(er)
+    })
 });
 
 router.delete('/:id', (req, res) => {
