@@ -48,15 +48,15 @@ router.delete('/:id', (req, res,next) => {
   .then(p =>{
     console.log('getting remove id',p,req.params.id)
     try{
-      if(p !== undefined){
+      if(p !== undefined && p === 1){
 
-        res.status(200).json({message: `${p} has been removed`})
+        res.status(200).json({message: `${req.params.id} has been removed`})
         }else{
-          res.status(404).json({message:'post not found 404 as undefined while removing'})
+          res.status(404).json({message:'delete not found 404 as undefined'})
         }
     }catch(e){
       
-      res.status(500).json({message: '500 error remove /:id posts-router.js possible Disconection',errormsg:e })
+      res.status(500).json({message: '500 error /:id posts-router.js possible Disconection',errormsg:e })
     }
     
   })
