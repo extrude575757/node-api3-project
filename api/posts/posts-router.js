@@ -16,14 +16,23 @@ router.get('/',   (req, res,next) => {
     })
 });
 
-router.get('/:id',(req, res,next) => {
+router.get('/:id', validatePostId,(req, res,next) => {
   // do your magic!
   // this needs a middleware to verify post id
-  Posts.getById(req.params.id,validatePostId,(req,res,next))
+  Posts.getById(req.params.id)
     .then(p =>{
       console.log('gettingid',p,req.params.id)
+      try{
+        if(p !== undefined){
+
+          res.status(200).json(p)
+          }else{
+            res.status(404).json({message:'post not found 404 as undefined'})
+          }
+      }catch(e){
+        res.status(500).json({message: '500 error /:id posts-router.js',errormsg:e })
+      }
       
-      res.status(200).json(p)
     })
     .catch( er =>{
       next(er)
