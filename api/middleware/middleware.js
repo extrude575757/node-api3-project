@@ -24,6 +24,19 @@ const Posts = require('../posts/posts-model.js')
 */
 
 
+function validateBody(req,res,next){
+  if(req.body && Object.keys(req.body).length > 0){
+    next();
+  }else {
+    res.status(400).json(
+      {
+        message: `Another Error 400 Validate Body`
+      }
+    )
+  }
+}
+
+
 function logger(req, res, next) {
   // do your magic!
 }
@@ -99,4 +112,4 @@ function validatePost(req, res, next) {
 }
 
 // do not forget to expose these functions to other modules
-module.exports = { validatePost, validatePostId }
+module.exports = { validatePost, validatePostId,validateBody }

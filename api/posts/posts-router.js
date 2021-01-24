@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Posts = require('./posts-model.js');
-const { validatePost,validatePostId } = require('../middleware/middleware')
+const { validatePost,validatePostId, validateBody } = require('../middleware/middleware')
 const router = express.Router();
 
 router.get('/',   (req, res,next) => {
@@ -65,15 +65,26 @@ router.delete('/:id', (req, res,next) => {
   })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res,next) => {
   // do your magic!
   // this needs a middleware to verify post id
+  console.log('withinput',req)
+  Posts.update(req.params.id, req.query,validatePostId, (req, res,next) )
+    .then(up =>{
+      console.log('updatehere',up);
+      res.status(200).json(req.query);
+    })
+    .catch( er =>{
+      res.status(500).json({
+        message: 'error happened 500 put /:id'
+      })
+    })
 });
 
 
 router.use((error, req, res, next) => {
   res.status(500).json({
-    info: 'something horrible happened inside the hubs router',
+    info: 'something horrible happened inside the posts router',
     message: error.message,
     stack: error.stack,
   })
